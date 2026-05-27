@@ -1,0 +1,29 @@
+name: Build Flet Android APK
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install Dependencies
+        run: |
+          pip install flet-cli
+          
+      - name: Set up Java & Android SDK
+        uses: android-actions/setup-android@v3
+        
+      - name: Build APK File
+        run: |
+          python -m flet.cli build apk --module-name "Xp to LVL"
+          
+      - name: Upload Finished Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-installer
+          path: build/apk/app-release.apk
