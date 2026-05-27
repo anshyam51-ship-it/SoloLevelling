@@ -20,7 +20,7 @@ jobs:
         
       - name: Build APK File
         run: |
-          python -m flet.cli build apk --module-name "Xp to LVL"
+          python -m flet.cli build apk --module-name "Xp to LVL" --yes
           
       - name: Upload Finished Installer
         uses: actions/upload-artifact@v4
