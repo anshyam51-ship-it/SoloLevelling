@@ -6,21 +6,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter Engine
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0'
+
+      - name: Set up Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           
-      - name: Install Dependencies
+      - name: Install Flet Tools
         run: |
           pip install flet-cli
           
-      - name: Set up Java & Android SDK
-        uses: android-actions/setup-android@v3
-        
-      - name: Build APK File
+      - name: Build Final APK Installer
         run: |
-          python -m flet.cli build apk --module-name "Xp to LVL" --yes
+          flet build apk "Xp to LVL.py" --yes
           
       - name: Upload Finished Installer
         uses: actions/upload-artifact@v4
